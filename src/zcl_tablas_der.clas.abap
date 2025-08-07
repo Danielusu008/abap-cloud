@@ -555,35 +555,341 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 
 
 
-  " Paso 1: Leer todas las agencias
-    SELECT FROM /dmo/agency
-      FIELDS *
-      INTO TABLE @DATA(lt_agencias).
+*  " Paso 1: Leer todas las agencias
+*    SELECT FROM /dmo/agency
+*      FIELDS *
+*      INTO TABLE @DATA(lt_agencias).
+*
+*    " Mostrar contenido original
+*    out->write( data = lt_agencias name = `Antes de la anonimización` ).
+*
+*    " Paso 2: Recorrer y aplicar condiciones lógicas
+*    LOOP AT lt_agencias ASSIGNING FIELD-SYMBOL(<fs_agencia>).
+*
+*      " Si NO está en Alemania Y su web contiene la palabra 'tour'
+*      IF <fs_agencia>-country_code <> 'DE'  AND <fs_agencia>-web_address CP '*tour*'.
+*
+*        " Paso 3: Anonimizar el correo
+*        <fs_agencia>-email_address = 'oculta@demo.com'.
+*
+*      ENDIF.
+*
+*    ENDLOOP.
+*
+*    " Paso 4: Mostrar resultado
+*    out->write( data = lt_agencias name = `Después de la anonimización` ).
 
-    " Mostrar contenido original
-    out->write( data = lt_agencias name = `Antes de la anonimización` ).
+    "FOR
 
-    " Paso 2: Recorrer y aplicar condiciones lógicas
-    LOOP AT lt_agencias ASSIGNING FIELD-SYMBOL(<fs_agencia>).
+*types: BEGIN OF ty_flights,
+*       iduser type /dmo/customer_id,
+*       aircode type /dmo/carrier_id,
+*       flightnum type /dmo/connection_id,
+*       key type land1,
+*       seat type /dmo/plane_seats_occupied,
+*       flightdate type /dmo/flight_date,
+*       END OF TY_FLIGHTS.
+*
+**
+**
+**
+**
+**
+*DATA: lt_flights_info type TABLE of ty_flights,
+*      lt_my_flights type table of ty_flights.
+**
+**
+**"for con el until
+**
+*lt_my_flights = VALUE #( for i = 1 until i > 30
+*
+*        (     iduser = | { 123456 + i } - USER |
+*               aircode = 'LH'
+*               flightnum = 00001 + i
+*               key = 'US'
+*               seat = 0 + i
+*               flightdate = cl_abap_context_info=>get_system_date(  ) + 1 ) ).
+*
+*
+*out->write( data = lt_my_flights name = `lt_my_flights` ).
+*out->write( |\n| ).
+*out->write( |\n| ).
 
-      " Si NO está en Alemania Y su web contiene la palabra 'tour'
-      IF <fs_agencia>-country_code <> 'DE'
-         AND <fs_agencia>-web_address CP '*tour*'.
+    """""""""""
+    " con el while
+    "FOR
+*
+*    TYPES: BEGIN OF ty_flights,
+*             iduser     TYPE /dmo/customer_id,
+*             aircode    TYPE /dmo/carrier_id,
+*             flightnum  TYPE /dmo/connection_id,
+*             key        TYPE land1,
+*             seat       TYPE /dmo/plane_seats_occupied,
+*             flightdate TYPE /dmo/flight_date,
+*           END OF ty_flights.
+*
+*
+*
+*
+*
+*
+*    DATA: lt_flights_info TYPE TABLE OF ty_flights,
+*          lt_my_flights   TYPE TABLE OF ty_flights..
 
-        " Paso 3: Anonimizar el correo
-        <fs_agencia>-email_address = 'oculta@demo.com'.
+
+
+
+*lt_my_flights = VALUE #( for i = 1 WHILE i <= 20
+*
+*        (     iduser = | { 123456 + i } - USER |
+*               aircode = 'LH'
+*               flightnum = 00001 + i
+*               key = 'US'
+*               seat = 0 + i
+*               flightdate = cl_abap_context_info=>get_system_date(  ) + 1 ) ).
+*
+*
+*out->write( data = lt_my_flights name = `lt_my_flights` ).
+
+    """""""""
+    "rellenar una tabla con otra tabla usando el for
+
+*
+*types: BEGIN OF ty_flights,
+*       iduser type /dmo/customer_id,
+*       aircode type /dmo/carrier_id,
+*       flightnum type /dmo/connection_id,
+*       key type land1,
+*       seat type /dmo/plane_seats_occupied,
+*       flightdate type /dmo/flight_date,
+*       END OF TY_FLIGHTS.
+*
+*
+*
+*
+*
+*
+*DATA: lt_flights_info type TABLE of ty_flights,
+*      lt_my_flights type table of ty_flights.
+
+
+
+
+*    lt_flights_info = VALUE #( FOR ls_my_flight IN lt_my_flights
+*
+*            (      iduser    = ls_my_flight-iduser
+*                   aircode   = ls_my_flight-aircode
+*                   flightnum = ls_my_flight-flightnum
+*                   key       = ls_my_flight-key
+*                   seat      = ls_my_flight-seat
+*                   flightdate = ls_my_flight-flightdate   ) ).
+*
+*
+*    out->write( data = lt_my_flights name = `lt_my_flights` ).
+
+*
+*    lt_flights_info = VALUE #( FOR ls_my_flight IN lt_my_flights
+*    WHERE (  aircode = 'LH' AND flightnum < 0012 )
+*
+*            (      iduser    = ls_my_flight-iduser
+*                   aircode   = ls_my_flight-aircode
+*                   flightnum = ls_my_flight-flightnum
+*                   key       = ls_my_flight-key
+*                   seat      = ls_my_flight-seat
+*                   flightdate = ls_my_flight-flightdate   ) ).
+*
+*
+*    out->write( data = lt_my_flights name = `lt_my_flights` ).
+
+    """"""""""""""""""222
+    "for anidado
+*
+*    TYPES: BEGIN OF ty_flights,
+*             aircode     TYPE /dmo/carrier_id,
+*             flightnum   TYPE /dmo/connection_id,
+*             flightdate  TYPE /dmo/flight_date,
+*             flightprice TYPE /dmo/flight_price,
+*             currency    TYPE /dmo/currency_code,
+*           END OF ty_flights.
+*
+* "creamos primera tabla lt_flights_type, que extrae datos de la base de datos de /dmo/flight
+*    SELECT FROM /dmo/flight
+*         FIELDS *
+*         INTO TABLE @DATA(lt_flights_type).
+*
+*
+* "creamos segunda tabla lt_airline, que extrae datos de la base de datos de /dmo/booking_m
+*    SELECT FROM /dmo/booking_m
+*       FIELDS carrier_id, connection_id , flight_price, currency_code
+*       INTO TABLE @DATA(lt_airline)
+*       UP TO 20 ROWS.
+*
+*"creamos tercera tabla que es de tipo SORTED!!!! a diferencia de con las que hemos trabajado anteriormente que siempre eran estandar.
+*"y le indicamos que herda los tipos de ty_flights y tiene una key no unica que hace referencia al campo/columna flightprice
+*    DATA lt_final TYPE SORTED TABLE OF ty_flights WITH NON-UNIQUE KEY flightprice.
+*
+*
+*"continuamos con el proceso de creacion de la lt_final usando una expresion de value con for anidados
+*    lt_final = VALUE #(
+*
+*    "primer bucle for : recorre la tabla lt_flgiths_type
+*    "filtra solo los vuelos cuyo carrier_id sea 'AA'
+*     FOR ls_flight_type IN lt_flights_type WHERE ( carrier_id = 'AA' )
+*
+*
+*                          "segundo bucle for anidado:recorre la tabla lt_airline
+*                          "solo se selecciona los registros que coinciden en carrier_id con el vuelo actual
+*                         FOR ls_airline IN lt_airline WHERE (  carrier_id = ls_flight_type-carrier_id )
+*
+*                            "crea una estructura para cada combinacion valida de vuelo y aerolinia
+*                         ( aircode     = ls_flight_type-carrier_id
+*                           flightnum   = ls_flight_type-connection_id
+*                           flightdate  = ls_flight_type-flight_date
+*                           flightprice = ls_airline-flight_price
+*                           currency    = ls_airline-currency_code )  ).
+*
+*
+*
+*    out->write( data = lt_flights_type name = `lt_flights_type` ).
+*    out->write( |\n| ).
+*    out->write( data = lt_airline name = `lt_airline` ).
+*    out->write( |\n| ).
+*    out->write( data = lt_final name = `tabla generada con las dos anteriores lt_final ` ).
+
+
+
+    "select "normal"
+
+    SELECT FROM /dmo/flight
+          FIELDS *
+          WHERE carrier_id = 'LH'
+         INTO TABLE @DATA(lt_flights).
+
+
+    "select a una tabla interna (no aconsejado hacer )
+    SELECT carrier_id, connection_id, flight_date
+    FROM @lt_flights AS lt
+    INTO TABLE @DATA(lt_flights_copy).
+*
+*   out->write( data = lt_flights name = `lt_flights` ).
+    " out->write( data = lt_flights_copy name = `lt_flights_copy` ).
+
+
+    "sentencia SORT
+    "ordenar tablas ( no tiene sentido para las tablas de tipo shorted) si para las estandar y las hash
+
+*out->write( data = lt_flights_copy name = `lt_flights_copy` ).
+*sort lt_flights_copy by flight_date DESCENDING connection_id ASCENDING.
+*out->write( data = lt_flights_copy name = `lt_flights_copy ordenado` ).
+
+    "modificar registros
+
+    "forma del clasico
+*out->write( data = lt_flights name = `ANTES / lt_flights` ).
+*
+*loop at lt_flights into data(ls_flight).
+*ls_flight-flight_date = cl_abap_context_info=>get_system_date(  ).
+*
+*MODIFY lt_flights from ls_flight INDEX 2.
+*ENDLOOP.
+*out->write( data = lt_flights name = `Despues / lt_flights` ).
+
+
+*
+*
+*    out->write( data = lt_flights name = `ANTES / lt_flights` ).
+*
+*    LOOP AT lt_flights INTO DATA(ls_flight).
+*
+*
+*      IF ls_flight-connection_id > '0401'.
+*        ls_flight-connection_id = '4000'.
+*        MODIFY lt_flights FROM ls_flight TRANSPORTING connection_id.
+*
+*      ENDIF.
+*
+*
+*    ENDLOOP.
+*    out->write( data = lt_flights name = `Despues / lt_flights` ).
+*
+
+
+
+    "forma moderna
+
+
+
+
+
+
+    out->write( data = lt_flights name = `ANTES / lt_flights` ).
+
+    LOOP AT lt_flights INTO DATA(ls_flight).
+      IF ls_flight-connection_id > '0401'.
+        ls_flight-connection_id = cl_abap_context_info=>get_system_date(  ).
+
+        MODIFY lt_flights FROM VALUE #(    connection_id  = '4000'
+                                           carrier_id = 'TT'
+                                           plane_type_id   = 'YY'  ) TRANSPORTING carrier_id plane_type_id connection_id .
+
 
       ENDIF.
 
     ENDLOOP.
-
-    " Paso 4: Mostrar resultado
-    out->write( data = lt_agencias name = `Después de la anonimización` ).
+    out->write( data = lt_flights name = `DESPUES / lt_flights` ).
 
 
+    """" eliminar registros
 
-
-
+*DATA: lt_flights_struc TYPE STANDARD TABLE OF /dmo/airport,
+*      ls_flights_struc TYPE /dmo/airport.
+*
+*
+*SELECT FROM /dmo/airport
+*  FIELDS *
+*  WHERE country EQ 'US'
+*  INTO TABLE @lt_flights_struc.
+*
+*
+*IF sy-subrc EQ 0.
+*  out->write( data = lt_flights_struc name = `BEFORE lt_flights_struc` ).
+*
+*  " Recorremos la tabla para borrar ciertos aeropuertos
+*  LOOP AT lt_flights_struc INTO ls_flights_struc.
+*
+*    " Si el ID del aeropuerto es JFK, BNA o BOS, lo eliminamos
+*    IF ls_flights_struc-airport_id = 'JFK' or
+*       ls_flights_struc-airport_id = 'BNA' OR
+*       ls_flights_struc-airport_id = 'BOS'.
+*
+*      " Borramos el registro de la tabla interna
+*      DELETE TABLE lt_flights_struc FROM ls_flights_struc.
+*
+*    ENDIF.
+*
+*  ENDLOOP.
+*
+*ENDIF.
+*
+*
+*out->write( |\n| ).
+*
+*
+*out->write( data = lt_flights_struc name = `AFTER lt_flights_struc` ).
+*
+*""""""""
+*
+*DELETE lt_flights_struc index 2.
+*out->write( data = lt_flights_struc name = `AFTER lt_flights_struc` ).
+*"""
+*DELETE lt_flights_struc from 3 to 6.
+*out->write( data = lt_flights_struc name = `AFTER lt_flights_struc` ).
 
   ENDMETHOD.
 ENDCLASS.
+
+
+
+
+
+
