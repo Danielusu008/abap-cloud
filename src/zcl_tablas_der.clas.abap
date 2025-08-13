@@ -137,7 +137,7 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 *             edad   TYPE i,
 *           END OF ty_persona.
 *
-*    TYPES: ty_tabla_personas TYPE STANDARD TABLE OF ty_persona WITH EMPTY KEY.
+*    TYPES: ty_tabla_personas TYPE STANDARD TABLE OF ty_persona WITH EMPTY KEY   .
 *
 *    DATA: lt_personas TYPE ty_tabla_personas.
 *
@@ -222,8 +222,8 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 *    IF sy-subrc = 4.
 *
 *      READ TABLE lt_flights INTO DATA(ls_flights) INDEX 2.
-**      out->write( data = lt_flights name = `tabla de vuelos` ).
-**      out->write( data = ls_flights name = `Estructura vuelos` ).
+*     out->write( data = lt_flights name = `tabla de vuelos` ).
+*      out->write( data = ls_flights name = `Estructura vuelos` ).
 *
 *      READ TABLE lt_flights INTO DATA(ls_flights2) INDEX 4 TRANSPORTING airport_id city .
 *      out->write( data = ls_flights2 name = `Estructura vuelos` ).
@@ -760,16 +760,16 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 
     "select "normal"
 
-    SELECT FROM /dmo/flight
-          FIELDS *
-          WHERE carrier_id = 'LH'
-         INTO TABLE @DATA(lt_flights).
-
-
-    "select a una tabla interna (no aconsejado hacer )
-    SELECT carrier_id, connection_id, flight_date
-    FROM @lt_flights AS lt
-    INTO TABLE @DATA(lt_flights_copy).
+*    SELECT FROM /dmo/flight
+*          FIELDS *
+*          WHERE carrier_id = 'LH'
+*         INTO TABLE @DATA(lt_flights).
+*
+*
+*    "select a una tabla interna (no aconsejado hacer )
+*    SELECT carrier_id, connection_id, flight_date
+*    FROM @lt_flights AS lt
+*    INTO TABLE @DATA(lt_flights_copy).
 *
 *   out->write( data = lt_flights name = `lt_flights` ).
     " out->write( data = lt_flights_copy name = `lt_flights_copy` ).
@@ -807,37 +807,24 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 *        MODIFY lt_flights FROM ls_flight TRANSPORTING connection_id.
 *
 *      ENDIF.
-*
-*
 *    ENDLOOP.
-*    out->write( data = lt_flights name = `Despues / lt_flights` ).
-*
-
-
+*    out->write( data = lt_flights name = `Despues / lt_flights` ).*
 
     "forma moderna
-
-
-
-
-
-
-    out->write( data = lt_flights name = `ANTES / lt_flights` ).
-
-    LOOP AT lt_flights INTO DATA(ls_flight).
-      IF ls_flight-connection_id > '0401'.
-        ls_flight-connection_id = cl_abap_context_info=>get_system_date(  ).
-
-        MODIFY lt_flights FROM VALUE #(    connection_id  = '4000'
-                                           carrier_id = 'TT'
-                                           plane_type_id   = 'YY'  ) TRANSPORTING carrier_id plane_type_id connection_id .
-
-
-      ENDIF.
-
-    ENDLOOP.
-    out->write( data = lt_flights name = `DESPUES / lt_flights` ).
-
+*    out->write( data = lt_flights name = `ANTES / lt_flights` ).
+*
+*    LOOP AT lt_flights INTO DATA(ls_flight).
+*      IF ls_flight-connection_id > '0401'.
+*        ls_flight-connection_id = cl_abap_context_info=>get_system_date(  ).
+*
+*        MODIFY lt_flights FROM VALUE #(    connection_id  = '4000'
+*                                           carrier_id = 'TT'
+*                                           plane_type_id   = 'YY'  ) TRANSPORTING carrier_id plane_type_id connection_id .
+*
+*      ENDIF.
+*
+*    ENDLOOP.
+*    out->write( data = lt_flights name = `DESPUES / lt_flights` ).
 
     """" eliminar registros
 
@@ -884,6 +871,249 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 *"""
 *DELETE lt_flights_struc from 3 to 6.
 *out->write( data = lt_flights_struc name = `AFTER lt_flights_struc` ).
+    " campos nulos
+    " DELETE lt_flights_struc where city is initial.
+    "" campos duplicados
+    "delete ADJACENT DUPLICATES FROM lt_flights_struc COMPARING airport_id.
+*
+*clear lt_flights_struc.
+*Free lt_flights_struc.
+
+    "LET
+*
+*    SELECT FROM /dmo/flight
+*           FIELDS *
+*           WHERE currency_code EQ 'USD'
+*           INTO TABLE @DATA(lt_flights).
+*
+*    SELECT FROM /dmo/booking_m
+*           FIELDS *
+*           INTO TABLE @DATA(lt_airline)
+*           UP TO 50 ROWS.
+*
+*
+*
+*
+*    LOOP AT lt_flights INTO DATA(ls_flight_let).
+*
+*      DATA(lv_flights) = CONV string(  " Convertimos todo el resultado a tipo string
+*         LET
+*           " Buscar en lt_airline el travel_id que corresponde al carrier_id del vuelo actual
+*           lv_airline      = lt_airline[ carrier_id = ls_flight_let-carrier_id ]-travel_id
+*
+*           " Buscar en lt_flights el precio del vuelo con el mismo carrier_id y connection_id
+*           lv_flight_price = lt_flights[ carrier_id    = ls_flight_let-carrier_id
+*                                         connection_id = ls_flight_let-connection_id ]-price
+*
+*           " Buscar de nuevo el carrier_id en lt_airline (parece redundante, pero se usa aquí)
+*           lv_carrid       = lt_airline[ carrier_id = ls_flight_let-carrier_id ]-carrier_id
+*
+*         IN
+*          " Cadena final con formato: <carrier_id> / Airline name: <travel_id> / Flight price: <precio>
+*           | { lv_carrid } / Airline name: { lv_airline } / Flight price: { lv_flight_price } |
+*       ).
+*      out->write( data = lv_flights ).
+*    ENDLOOP.
+*
+
+
+
+
+
+
+
+
+    "tablas de rangos
+
+* sign
+*    I  = lo quiero
+*    E  = no lo quiero
+*
+*option dice el tipo de comparacion
+*    EQ - =  / igual a
+*    NE - diferente de  <>
+*    GT - mayor que >
+*    LT - Menor que <
+*    BT - entre
+*    CP - "like"
+*
+*
+*low - El valor minimo o valor exacto
+*
+*high - el valor maximo
+
+*DATA lr_seats type range of /dmo/plane_seats_occupied.
+*
+*"quiero vuelos con asiesntos entre 50 y 100
+*append value #( sign = 'I' option = 'BT' low = 50 high = 100 ) to lr_seats.
+*"tambien quiero vuelos exactamente con 150 asisentos
+*append value #( sign = 'I' option = 'EQ' low = 150 ) to lr_seats.
+*"pero no quiero vuelos con menos de 10 asientos
+*append value #( sign = 'E' option = 'EQ' low = 150 ) to lr_seats.
+*
+*data: lt_flights type table of /dmo/flight.
+*
+*select *
+*from /dmo/flight
+*where seats_occupied in @lr_seats
+*into table @lt_flights.
+*
+*loop at lt_flights into Data(ls_flight).
+*
+*out->write( |vuelos: { ls_flight-carrier_id } Asientos ocupados: { ls_flight-seats_occupied } | ).
+*ENDLOOP.
+
+
+
+
+
+*" 1) Declarar la tabla de rangos para flight_date
+*DATA lr_dates TYPE RANGE OF /dmo/flight_date.
+*
+*
+*
+*" 2) Añadir condición: vuelos entre el 1 de enero y el 31 de diciembre de 2025
+*APPEND VALUE #(
+*  sign   = 'I'        " Incluir
+*  option = 'BT'       " Between
+*  low    = '20250101' " Fecha inicial (AAAAMMDD)
+*  high   = '20251231' " Fecha final
+*) TO lr_dates.
+*
+*" 3) Añadir condición: excluir vuelos del 1 de junio de 2025
+*APPEND VALUE #(
+*  sign   = 'E'        " Excluir
+*  option = 'EQ'       " Igual a
+*  low    = '20250601' " Fecha a excluir
+*) TO lr_dates.
+*
+*" 4) Declarar tabla para guardar resultados
+*DATA lt_flights TYPE TABLE OF /dmo/flight WITH EMPTY KEY.
+*
+*" 5) SELECT usando la tabla de rangos
+*SELECT *
+*  FROM /dmo/flight
+*  WHERE flight_date IN @lr_dates
+*  INTO TABLE @lt_flights.
+*
+*" 6) Mostrar resultados
+*LOOP AT lt_flights INTO DATA(ls_flight).
+*  out->write(
+*    |Carrier: { ls_flight-carrier_id }  Conn: { ls_flight-connection_id }  Fecha: { ls_flight-flight_date }|
+*  ).
+*ENDLOOP.
+
+
+    "Enum es una lista de valores con nombre que representa todas las opciones posibles para algo (todas las opciones posibles marcadas por el programador)
+
+
+    "Definimos el ENUM para los tipos de vuelo
+*    TYPES : BEGIN OF ENUM ty_flight_enum,
+*
+*              nacional,   "vuelo dentro del mismo pais
+*              internacional, " vuelo entre paises
+*              charter, "vuelo especial/privado
+*
+*            END OF ENUM ty_flight_enum.
+*
+*    "Declaramos la variable
+*    DATA lv_tipo_vuelo TYPE ty_flight_enum.
+*
+*    "asignamos el valor al ENUM !! que no puede ser distinto a los que esten en la declaracion del   TYPES : BEGIN OF ENUM ty_flight_enum,
+*    lv_tipo_vuelo = internacional.
+*
+*    CASE lv_tipo_vuelo.
+*
+*      WHEN nacional.
+*        out->write( 'este es un vuelo nacional' ).
+*
+*      WHEN internacional.
+*        out->write( 'este es un vuelo internacional' ).
+*
+*      WHEN charter.
+*        out->write( 'este es un vuelo charter' ).
+*
+*    ENDCASE.
+*
+
+    "BASE
+    "Permite reutilizar una estructura o tabla ya existente como base para crear una nueva, sin tener que copiar todo manualmente.
+*
+*    SELECT FROM /dmo/flight
+*    FIELDS *
+*    WHERE currency_code = 'USD'
+*    INTO TABLE @DATA(lt_flights).
+*
+*
+*out->write( data = lt_flights name = `lt_flights` ).
+*
+*
+*
+*
+*data lt_seats TYPE table of /dmo/flight.
+*
+*lt_seats = value #( base lt_flights
+*
+*( carrier_id = 'CO'
+*  connection_id = '000123'
+*  flight_date = sy-datum " cl_abap_context_info=>get_system_date( ).
+*  price = '2000'
+*  currency_code = 'COP'
+*  plane_type_id = 'B213-58'
+*  seats_max = 120
+*  seats_occupied = 100
+*
+*) ).
+*lt_seats = VALUE #( BASE lt_seats ( LINES OF lt_flights )
+*                    ( carrier_id       = 'CO'
+*                      connection_id    = '000123'
+*                      flight_date      = cl_abap_context_info=>get_system_date( )
+*                      price            = '2000'
+*                      currency_code    = 'COP'
+*                      plane_type_id    = 'B213-58'
+*                      seats_max        = 125
+*                      seats_occupied   = 100 ) ).
+*
+*
+*out->write( data = lt_seats name = `lt_seats` ).
+
+
+    "agrupar registros
+    "En abap cloud( y en abap en general) agrupar registros significa organizar datos con un criterio comun
+    "para tratarlos como un conjunto.
+    "( se suele hacer cuando se quiere sumar, contar o procesar datos que comparten un mismo valor o varios campos.
+
+*    SELECT *
+*    FROM /dmo/flight
+*    INTO TABLE @DATA(lt_flights).
+*
+*    DATA lt_members LIKE lt_flights.
+*
+*    "bucle externo con agrupacion
+*    LOOP AT lt_flights INTO DATA(ls_flight)                                   " recorre lt_flights fila a fila en la estructura ls_flgitht
+*    GROUP BY ls_flight-carrier_id                                             "agrupacion logica por aerolina ( carrier_id)
+*    ASCENDING                                                                  "ordena de manera ascendente
+*    INTO DATA(lv_carrier).                                                     "guarda la clave del grupo actual (carrier_id ) en lv_carrier
+*
+*     clear lt_members.                                                         "resetea el acumulador para empezar a llenar el grupo actual
+*
+*    loop at GROUP lv_carrier into data(ls_member).                             "itera solo por las filas que pertenecen a este grupo
+*    append ls_member to lt_members.                                            "añade cada miembro del gurpo a lt_members
+*    ENDLOOP.
+*
+*
+*
+*        out->write( |Aerolinea: { lv_carrier } - Vuelos en este grupo: { lines( lt_members ) }  | ).
+*
+*    ENDLOOP.
+
+"crea una variable/objeto que apunta a un objeto de tipo  zcl_constructores_punteros_der
+    DATA(lo_employee) = NEW zcl_constructores_punteros_der( iv_age = 22
+                                                         iv_name = 'Laura' ).
+
+    out->write( lo_employee->lv_age ).
+    out->write( lo_employee->lv_name ).
+
 
   ENDMETHOD.
 ENDCLASS.
