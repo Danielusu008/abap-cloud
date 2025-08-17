@@ -12,7 +12,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_constante_der IMPLEMENTATION.
+CLASS ZCL_CONSTANTE_DER IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
 
@@ -27,6 +29,4 @@ CLASS zcl_constante_der IMPLEMENTATION.
     out->write( |El area de un circulo de radio { lv_radio }: { lv_resultado }| ).
 
   ENDMETHOD.
-
-
 ENDCLASS.

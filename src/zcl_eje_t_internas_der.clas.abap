@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_eje_t_internas_der IMPLEMENTATION.
+CLASS ZCL_EJE_T_INTERNAS_DER IMPLEMENTATION.
+
+
  METHOD if_oo_adt_classrun~main.
      " 1. Definimos un tipo de estructura para guardar los datos de los libros
     TYPES: BEGIN OF ty_libro,

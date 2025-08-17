@@ -11,7 +11,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_case_endcase_der IMPLEMENTATION.
+CLASS ZCL_CASE_ENDCASE_DER IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -144,5 +145,4 @@ CLASS zcl_case_endcase_der IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

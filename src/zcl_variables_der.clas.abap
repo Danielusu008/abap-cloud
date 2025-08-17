@@ -12,7 +12,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_variables_der IMPLEMENTATION.
+CLASS ZCL_VARIABLES_DER IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -60,6 +61,4 @@ ENDIF.
 
 
   ENDMETHOD.
-
-
 ENDCLASS.

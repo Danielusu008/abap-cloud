@@ -11,7 +11,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_eje_manipulacion_tab_der IMPLEMENTATION.
+CLASS ZCL_EJE_MANIPULACION_TAB_DER IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 

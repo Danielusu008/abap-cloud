@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_fun_cadenas_caracteres_der IMPLEMENTATION.
+CLASS ZCL_FUN_CADENAS_CARACTERES_DER IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 *
 *DATA: lv_string TYPE string VALUE 'daniel Fernando Pedro Ramon',

@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_ejercicio_estructuras IMPLEMENTATION.
+CLASS ZCL_EJERCICIO_ESTRUCTURAS IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
 

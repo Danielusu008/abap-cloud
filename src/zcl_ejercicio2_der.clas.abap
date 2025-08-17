@@ -11,7 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_ejercicio2_der IMPLEMENTATION.
+CLASS ZCL_EJERCICIO2_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

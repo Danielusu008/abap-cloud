@@ -11,8 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_eje3_der IMPLEMENTATION.
-
+CLASS ZCL_EJE3_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -154,8 +153,4 @@ CLASS zcl_eje3_der IMPLEMENTATION.
 
 
   ENDMETHOD.
-
-
-
-
 ENDCLASS.

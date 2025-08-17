@@ -5,29 +5,18 @@ CLASS zcl_constructores_punteros_der DEFINITION
 
 
   PUBLIC SECTION.
-  "atributos publicos accesibles desde fuera de la clase
-    Data: lv_name type string,
-          lv_age type i.
 
-  "definicion del metodo constructor, recibe paramentros de entrada
-  METHODS: constructor IMPORTING iv_name type string
-                                 iv_age  type i.
+
+
 
     INTERFACES if_oo_adt_classrun.
 PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
 
-CLASS zcl_constructores_punteros_der IMPLEMENTATION.
 
 
-METHOD constructor.
-
-lv_age = iv_age.  " asigna el valor recibido a la variable lv_age
-lv_name = iv_name.  " asigna el valor recibido a la variable lv_name
-
-ENDMETHOD.
-
+CLASS ZCL_CONSTRUCTORES_PUNTEROS_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -80,7 +69,7 @@ ENDMETHOD.
 *    "discarting duplicates
 *
 *    DATA: lt_itab1 TYPE TABLE OF ty_person WITH EMPTY KEY,
-*          lt_itab2 TYPE SORTED TABLE OF ty_person WITH UNIQUE KEY name.
+*          lt_itab2 TYPE  TABLE OF ty_person WITH UNIQUE KEY name.
 *
 *    lt_itab1  = VALUE #( ( name = 'maria'  age = 22 )
 *                         ( name = 'maria'  age = 25 )
@@ -100,7 +89,7 @@ ENDMETHOD.
 
 "NEW
 
-"Declaramos una variable de referencia a un entero (i)
+*"Declaramos una variable de referencia a un entero (i)
 *data lo_data type ref to i.
 *
 *"creamos un nuevo objeto de tipo entero (inferido por # ) con valor inicial 12345
@@ -115,6 +104,8 @@ ENDMETHOD.
 *
 *out->write( lo_data2 ).
 """""""""
+
+
 
 
   ENDMETHOD.

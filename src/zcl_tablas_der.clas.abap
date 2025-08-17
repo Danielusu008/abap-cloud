@@ -11,7 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_tablas_der IMPLEMENTATION.
+CLASS ZCL_TABLAS_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -1108,18 +1108,12 @@ CLASS zcl_tablas_der IMPLEMENTATION.
 *    ENDLOOP.
 
 "crea una variable/objeto que apunta a un objeto de tipo  zcl_constructores_punteros_der
-    DATA(lo_employee) = NEW zcl_constructores_punteros_der( iv_age = 22
-                                                         iv_name = 'Laura' ).
-
-    out->write( lo_employee->lv_age ).
-    out->write( lo_employee->lv_name ).
+*    DATA(lo_employee) = NEW zcl_constructores_punteros_der( iv_age = 22
+*                                                         iv_name = 'Laura' ).
+*
+*    out->write( lo_employee->lv_age ).
+*    out->write( lo_employee->lv_name ).
 
 
   ENDMETHOD.
 ENDCLASS.
-
-
-
-
-
-

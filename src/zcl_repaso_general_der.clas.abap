@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_repaso_general_der IMPLEMENTATION.
+CLASS ZCL_REPASO_GENERAL_DER IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
 

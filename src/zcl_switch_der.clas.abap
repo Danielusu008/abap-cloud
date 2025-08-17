@@ -11,7 +11,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_switch_der IMPLEMENTATION.
+CLASS ZCL_SWITCH_DER IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 

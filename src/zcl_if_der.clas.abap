@@ -11,7 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_if_der IMPLEMENTATION.
+CLASS ZCL_IF_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -59,6 +59,4 @@ DATA ls_flight type /dmo/flight.
 
 
   ENDMETHOD.
-
-
 ENDCLASS.

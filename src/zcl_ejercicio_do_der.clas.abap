@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_ejercicio_do_der IMPLEMENTATION.
+CLASS ZCL_EJERCICIO_DO_DER IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
 DATA(lv_string) = 'daniel Fernando Pedro ramon Sergio'.

@@ -16,7 +16,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_clase_der IMPLEMENTATION.
+CLASS ZCL_CLASE_DER IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -117,5 +117,4 @@ CLASS zcl_clase_der IMPLEMENTATION.
    " out->write( 'Hola mundo 2' ).  " Esta linea imprime por consola asdfasdf out->write( 'Hola mundo 2' ).
 
  ENDMETHOD.
-
 ENDCLASS.
