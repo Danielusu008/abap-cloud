@@ -11,9 +11,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_CONSTRUCTORES_P_DOS_DER IMPLEMENTATION.
-
-
+CLASS zcl_constructores_p_dos_der IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
 
     "value
@@ -205,50 +203,50 @@ CLASS ZCL_CONSTRUCTORES_P_DOS_DER IMPLEMENTATION.
 *out->write( data = lr_flight->* name = 'Referencia  index/indice  2'   ).
 
 
-*    "CAST SE usa para convertir referencias de un tipo a otro. (NO CONVIERTE VALORES COMO EL CONV O EXACT, SINO REFERENCIAS )
-*    "dicho de otro modo, convierte referencias de objetos o datos de un tipo de referencia a otro tipo de referencia
-*    "compatible.
+**    "CAST SE usa para convertir referencias de un tipo a otro. (NO CONVIERTE VALORES COMO EL CONV O EXACT, SINO REFERENCIAS )
+**    "dicho de otro modo, convierte referencias de objetos o datos de un tipo de referencia a otro tipo de referencia
+**    "compatible.
+**
+*    TYPES: BEGIN OF ty_struc,
+*             col1 TYPE i,
+*             col2 TYPE i,
 *
-    TYPES: BEGIN OF ty_struc,
-             col1 TYPE i,
-             col2 TYPE i,
-
-           END OF ty_struc.
-
-"declaramos una referencia generica a datos
-
-DATA lr_data type ref to data.
-
-"declaramos una variable de tipo ty_struc (estructura tipada)
-
-data ls_int type ty_struc.
-
-"creamos en memoria un objeto del tipo ty_struc
-    "guardamos su referncia en lr_data
-    "NEW devuelve una referencia, no una copia
-
-lr_data = NEW ty_struc(  ).
-
-"usamos el CAST para convertir la referencia generica lr_data a una referencia del tipo ty_struc , y ->* para desreferenciar
-"y copiar el contenido completo en ls_int
-
-ls_int = CAST ty_struc( lr_data )->*.
-
-"accedemos directamente al campo col1 usando CAST.
-"esto no copia toda la estructura, solo lee col1.
-
-ls_int-col1 = cast ty_struc( lr_data )->col1.
-
-"lo mismo pero con el col2
-ls_int-col2 = cast ty_struc( lr_data )->col2.
-
-
-out->write( data = ls_int name = 'ls_int' ).
-
-
-out->write( data = ls_int-col1 name = 'ls_int-col1' ).
-
-out->write( data = ls_int-col2 name = 'ls_int-col2' ).
+*           END OF ty_struc.
+*
+*"declaramos una referencia generica a datos
+*
+*DATA lr_data type ref to data.
+*
+*"declaramos una variable de tipo ty_struc (estructura tipada)
+*
+*data ls_int type ty_struc.
+*
+*"creamos en memoria un objeto del tipo ty_struc
+*    "guardamos su referncia en lr_data
+*    "NEW devuelve una referencia, no una copia
+*
+*lr_data = NEW ty_struc(  ).
+*
+*"usamos el CAST para convertir la referencia generica lr_data a una referencia del tipo ty_struc , y ->* para desreferenciar
+*"y copiar el contenido completo en ls_int
+*
+*ls_int = CAST ty_struc( lr_data )->*.
+*
+*"accedemos directamente al campo col1 usando CAST.
+*"esto no copia toda la estructura, solo lee col1.
+*
+*ls_int-col1 = cast ty_struc( lr_data )->col1.
+*
+*"lo mismo pero con el col2
+*ls_int-col2 = cast ty_struc( lr_data )->col2.
+*
+*
+*out->write( data = ls_int name = 'ls_int' ).
+*
+*
+*out->write( data = ls_int-col1 name = 'ls_int-col1' ).
+*
+*out->write( data = ls_int-col2 name = 'ls_int-col2' ).
 
 
     "FILTER: Es una expresion de ABAP que crea una nueva tabla interna filtrando los
@@ -258,7 +256,8 @@ out->write( data = ls_int-col2 name = 'ls_int-col2' ).
     "la tabla interna en la que se utiliza el operdador filter debe tener al menos una
     "clave ordenada o una clave hash ultilizada para el acceso
 
-    "declaracion de tablas
+    "declaracion
+     "de tablas
 
 *    DATA: lt_flights_all   TYPE STANDARD TABLE OF /dmo/flight,
 *          lt_flights_final TYPE STANDARD TABLE OF /dmo/flight,
@@ -314,11 +313,48 @@ out->write( data = ls_int-col2 name = 'ls_int-col2' ).
 *
 *out->write( name = 'lt_flights_all' data = lt_flights_all ).
 *out->write( name = 'lt_flights_final (solo 747-400, 767-200, A320-200, A380-800)' data = lt_flights_final ).
+*
 
-
-
-
-
+*" Declaración de variables y tablas internas
+*DATA gv_employee      TYPE string.
+*DATA gt_employees     TYPE STANDARD TABLE OF ztab_bd_der.
+*DATA gt_employees_for TYPE STANDARD TABLE OF ztab_bd_der.
+*
+*FIELD-SYMBOLS: <gfs_employee>  TYPE string,
+*               <gfs_employee2> TYPE ztab_bd_der.
+*
+*" Asignar y usar un field-symbol con variable simple
+*ASSIGN gv_employee TO <gfs_employee>.
+*<gfs_employee> = 'Maria'.
+*out->write( gv_employee ).
+*UNASSIGN <gfs_employee>.
+*
+*" Seleccionar todos los empleados de la tabla Z
+*SELECT FROM ztab_bd_der
+*       FIELDS *
+*       INTO TABLE @gt_employees.
+*
+*" 1) Modificar emails con LOOP INTO DATA
+*LOOP AT gt_employees INTO DATA(gs_employee).
+*  gs_employee-email = 'NEW-EMAIL@LOGALIGROUP.COM'.
+*ENDLOOP.
+*
+*out->write( data = gt_employees name = 'Structure' ).
+*
+*" 2) Modificar emails con LOOP ASSIGNING FIELD-SYMBOL
+*LOOP AT gt_employees ASSIGNING <gfs_employee2>.
+*  <gfs_employee2>-email = 'NEW-EMAIL@LOGALIGROUP.COM'.
+*ENDLOOP.
+*
+*out->write( data = gt_employees name = 'Field symbols' ).
+*
+*" 3) Crear nueva tabla con FOR + CORRESPONDING
+*gt_employees_for = VALUE #(
+*  FOR <gfs_employee3> IN gt_employees
+*  ( CORRESPONDING #( <gfs_employee3> ) )
+*).
+*
+*out->write( data = gt_employees_for name = 'gt_employees_for' ).
 
 
 

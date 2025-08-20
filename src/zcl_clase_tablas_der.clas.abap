@@ -21,10 +21,10 @@ CLASS zcl_clase_tablas_der IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
 
 " Vaciar la tabla antes de cargar datos de ejemplo
-DELETE FROM ztab_bd_der.
+DELETE FROM ztab_eje1_der.
 
 " Insertar los registros
-MODIFY ztab_bd_der FROM TABLE @(
+MODIFY ztab_eje1_der FROM TABLE @(
   VALUE #(
     ( mandt         = '100'
       id            = '00000001'
@@ -61,7 +61,18 @@ MODIFY ztab_bd_der FROM TABLE @(
       phone_number  = '546987'
       salary        = '5000.00'
       currency_code = 'USD' )
+
+       ( mandt         = '100'
+      id            = '00000005'
+      first_name    = 'Mario'
+      last_name     = 'Pérez'
+      email         = 'kperez@example.com'
+      phone_number  = '546987'
+      salary        = '5000.00'
+      currency_code = 'USD' )
+
   )
+
 ).
 
 
