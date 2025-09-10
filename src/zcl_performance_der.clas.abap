@@ -76,16 +76,22 @@ CLASS zcl_performance_der IMPLEMENTATION.
                        booking_date = me->key_date ].
   ENDMETHOD.
 
-  METHOD if_oo_adt_classrun~main.                                            " Punto de entrada ejecutable en ADT
+
+
+
+
+  METHOD if_oo_adt_classrun~main.
+
+                                         " Punto de entrada ejecutable en ADT
     DATA(lo_flights) = NEW zcl_performance_der( ).                           " Instancia la clase (ejecuta constructor)
 
     lo_flights->standard( ).                                                 " Prueba lectura en STANDARD
     lo_flights->sort( ).                                                     " Prueba lectura en SORTED
     lo_flights->hash( ).                                                     " Prueba lectura en HASHED
 
-    " out->write( me->key_travel_id ).                                         " Muestra travel_id almacenado
-    "out->write( me->key_booking_id ).                                        " Muestra booking_id almacenado
-    "out->write( me->key_date ).                                              " Muestra booking_date almacenado
+    out->write( me->key_travel_id ).                                         " Muestra travel_id almacenado
+    out->write( me->key_booking_id ).                                        " Muestra booking_id almacenado
+    out->write( me->key_date ).                                              " Muestra booking_date almacenado
 
 
 

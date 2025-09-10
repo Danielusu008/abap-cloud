@@ -175,7 +175,7 @@ CLASS ZCL_TABLAS_DER IMPLEMENTATION.
 *
 *
 *    ).
-*
+
 *    out->write( lt_persona ).
 *
 *    DATA ls_persona TYPE ty_persona.
@@ -299,6 +299,7 @@ CLASS ZCL_TABLAS_DER IMPLEMENTATION.
     """"""""""""
     "Corresponding.
 
+
 *    TYPES:BEGIN OF ty_flights,
 *            carrier_id    TYPE /dmo/carrier_id,
 *            connection_id TYPE /dmo/connection_id,
@@ -306,7 +307,7 @@ CLASS ZCL_TABLAS_DER IMPLEMENTATION.
 *            animales      TYPE string,
 *            currency_code TYPE /dmo/currency_code,
 *          END OF ty_flights.
-*
+
 *    DATA: lt_my_flights TYPE STANDARD TABLE OF ty_flights.
 *    " ls_my_flight type ty_flights.
 *
