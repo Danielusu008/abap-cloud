@@ -10,6 +10,8 @@ CLASS zcl_06_elements_der DEFINITION
                lc_mass_electron TYPE string VALUE '9,1091 · 10-31 kg'.
 
 
+
+
     ".............
     TYPES: BEGIN OF ty_elem_objects,
              class     TYPE string,

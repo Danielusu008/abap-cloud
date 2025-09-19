@@ -1,16 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
- <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
-  <asx:values>
-   <VSEOCLASS>
-    <CLSNAME>ZCL_CONSTRUCTORES_P_DOS_DER</CLSNAME>
-    <LANGU>E</LANGU>
-    <DESCRIPT>continuacion de ejemplos de constructores y punteros</DESCRIPT>
-    <STATE>1</STATE>
-    <CLSCCINCL>X</CLSCCINCL>
-    <FIXPT>X</FIXPT>
-    <UNICODE>X</UNICODE>
-   </VSEOCLASS>
-  </asx:values>
- </asx:abap>
+ <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml"/>
 </abapGit>

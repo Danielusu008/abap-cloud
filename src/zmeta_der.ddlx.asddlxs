@@ -1,0 +1,14 @@
+@Metadata.layer: #CORE
+
+
+annotate view ZCDS_CL_DER2 with
+{
+    @UI.connectedFields: [{ hidden: true }]
+  TravelId;
+//  BookinId;
+//  AgencyId;
+//  AgencyName;
+//  CustomerId;
+//  CustomerName;
+
+}

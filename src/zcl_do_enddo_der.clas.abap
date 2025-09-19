@@ -1,42 +1,13 @@
-CLASS zcl_do_enddo_der DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+class ZCL_DO_ENDDO_DER definition
+  public
+  create private .
 
-  PUBLIC SECTION.
-    INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+public section.
+protected section.
+private section.
 ENDCLASS.
 
 
 
 CLASS ZCL_DO_ENDDO_DER IMPLEMENTATION.
-
-
-  METHOD if_oo_adt_classrun~main.
-
-
-
-
-    DO 5 TIMES.
-
-      out->write( |primero { sy-index } | ).
-
-
-      DO 5 TIMES.
-
-        out->write( |segundo { sy-index } | ).
-
-      ENDDO.
-
-    ENDDO.
-
-
-
-
-
-
-
-  ENDMETHOD.
 ENDCLASS.
